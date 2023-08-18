@@ -2,7 +2,7 @@
 #define HELLO_PLUGIN_H
 #include <QObject>
 #include <QtPlugin>
-#include "helloPluginInterface.h"
+#include "interfaces.h"
        
 class HelloPlugin : public QObject, public HelloPluginInterface
 {

@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "helloPluginInterface.h"
+#include "interfaces.h"
 
 #include <assert.h>
 #include <QDebug>
@@ -38,7 +38,11 @@ void MainWindow::loadPlugins() {
             auto iHello = qobject_cast<HelloPluginInterface *>(plugin);
             if (iHello)
                 iHello -> doSomething();
-                pluginFileNames += fileName;
+
+            auto  iEcho = qobject_cast<EchoPluginInterface *>(plugin);
+            if (iEcho)
+                qDebug() << iEcho -> echo("Plugin loaded");
+            pluginFileNames += fileName;
         }
     }
 }
