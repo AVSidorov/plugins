@@ -5,8 +5,8 @@
 class HelloPluginInterface
 {
 public:
-    virtual ~HelloPluginInterface();
-    virtual void doSomething();
+    virtual ~HelloPluginInterface() = default;
+    virtual void doSomething() = 0;
 };
 
 #define HelloPluginInterface_iid "com.opsira.HelloPluginInterface"
