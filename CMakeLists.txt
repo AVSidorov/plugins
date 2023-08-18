@@ -10,4 +10,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(plugin_hello)
 add_subdirectory(plugin_echo)
+add_subdirectory(plugin_widget)
 add_subdirectory(plugin_App)

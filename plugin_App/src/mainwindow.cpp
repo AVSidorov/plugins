@@ -42,6 +42,10 @@ void MainWindow::loadPlugins() {
             auto  iEcho = qobject_cast<EchoPluginInterface *>(plugin);
             if (iEcho)
                 qDebug() << iEcho -> echo("Plugin loaded");
+
+            auto  iWidget = qobject_cast<WidgetPluginInterface *>(plugin);
+            if (iWidget)
+                ui ->gridLayout->addWidget(iWidget->mainWidget(ui->centralwidget));
             pluginFileNames += fileName;
         }
     }
