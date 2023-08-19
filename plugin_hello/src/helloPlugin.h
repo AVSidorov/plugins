@@ -7,11 +7,11 @@
 class HelloPlugin : public QObject, public HelloPluginInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID HelloPluginInterface_iid)
+    Q_PLUGIN_METADATA(IID HelloPluginInterface_iid FILE "helloPlugin.json")
     Q_INTERFACES(HelloPluginInterface)
 
 public:
-    void doSomething();
+    void doSomething() override;
 };
 
 #endif // HELLO_PLUGIN_H
