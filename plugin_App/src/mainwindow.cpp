@@ -27,11 +27,16 @@ void MainWindow::loadPlugins() {
 
     pluginsDir = QDir(QCoreApplication::applicationDirPath());
 
-    pluginsDir.cd("opsira");
+    if (!pluginsDir.cd("opsira")){
+        qDebug() << "Plugins Dir NOT FOUND";
+        return;
+    };
+    qDebug() << "Plugins dir: " << pluginsDir.absolutePath();
 
     const auto entryList = pluginsDir.entryList(QDir::Files);
     for (const QString &fileName : entryList) {
-        assert(QLibrary::isLibrary(pluginsDir.absoluteFilePath(fileName)));
+        qDebug() << "plugin : " << pluginsDir.absoluteFilePath(fileName);
+        //assert(QLibrary::isLibrary(pluginsDir.absoluteFilePath(fileName)));
         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
         QObject *plugin = loader.instance();
         if (plugin) {
