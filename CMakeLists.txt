@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.23)
 set(VCPKG_OVERLAY_PORTS ${CMAKE_CURRENT_LIST_DIR}/plugin_qwt/overlays)
+#set(ENV{VCPKG_KEEP_ENV_VARS} Qt5_DIR)
+#set(VCPKG_KEEP_ENV_VARS Qt5_DIR)
+
 project(plugin)
 
 set(CMAKE_AUTOUIC ON)

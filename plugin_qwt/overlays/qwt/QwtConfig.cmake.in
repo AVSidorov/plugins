@@ -2,5 +2,4 @@
 set_and_check(Qwt_DIR "@PACKAGE_INSTALL_DIR@")
 set_and_check(Qwt_LIBDIR "@PACKAGE_LIB_INSTALL_DIR@")
 set_and_check(Qwt_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
-message("_IMPORT_PREFIX ${_IMPORT_PREFIX}")
 include(${CMAKE_CURRENT_LIST_DIR}/Qwt.cmake)

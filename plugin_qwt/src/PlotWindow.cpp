@@ -22,7 +22,7 @@ namespace
         ColorMap()
             : QwtLinearColorMap( Qt::darkBlue, Qt::yellow )
         {
-#if 1
+#if 0
             addColorStop( 0.00, Qt::black );
             addColorStop( 0.05, Qt::darkRed );
 #else

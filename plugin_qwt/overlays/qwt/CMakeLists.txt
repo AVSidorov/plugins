@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
-project(qwt)
+project(qwt CXX)
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5
@@ -25,9 +26,11 @@ message("qwt dir: ${qwt_dir}")
 message("qwt sources dir: ${qwt_src}")
 message("qwt classincludes dir: ${qwt_classincludes}")
 
+set(CMAKE_DEBUG_POSTFIX d)
+
 file(GLOB QWT_SOURCES
-    LIST_DIRECTORIES true
-    RELATIVE ${PROJECT_SOURCE_DIR}
+        LIST_DIRECTORIES true
+        RELATIVE ${PROJECT_SOURCE_DIR}
         ${qwt_src}/*.cpp
 )
 
@@ -48,9 +51,20 @@ list(REMOVE_ITEM QWT_CLASSINCLUDES classincludes/classincludes.pro)
 
 add_library(qwt SHARED)
 
+target_compile_definitions(qwt PUBLIC QWT_MOC_INCLUDE=1)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+    target_compile_definitions(qwt PUBLIC QT_NO_DEBUG QT_NO_KEYWORDS)
+endif()
+
+if (WIN32)
+    target_compile_definitions(qwt PUBLIC QWT_DLL)
+    target_compile_definitions(qwt PRIVATE QWT_MAKEDLL)
+endif()
+
+
 target_sources(qwt
         PRIVATE
-            ${QWT_SOURCES}
+        ${QWT_SOURCES}
         PUBLIC FILE_SET qwt_header_set  TYPE HEADERS  BASE_DIRS ${qwt_src} FILES ${QWT_HEADERS}
         INTERFACE FILE_SET qwt_classincludes_set TYPE HEADERS BASE_DIRS ${qwt_classincludes} FILES ${QWT_CLASSINCLUDES}
 )
@@ -61,8 +75,6 @@ target_include_directories(qwt
         $<INSTALL_INTERFACE:${INCLUDEDIR}>
         $<INSTALL_INTERFACE:${LIBDIR}>
 )
-
-target_compile_definitions(qwt PUBLIC QWT_MOC_INCLUDE=1 QT_NO_DEBUG QT_NO_KEYWORDS)
 
 target_link_libraries(qwt
         PRIVATE
@@ -75,20 +87,14 @@ target_link_libraries(qwt
         Qt::PrintSupport
 )
 
-
 include(GNUInstallDirs)
 
 install(TARGETS qwt
         EXPORT Qwt
-        CONFIGURATIONS Release
         FILE_SET qwt_header_set
         FILE_SET qwt_classincludes_set
+        ARCHIVE DESTINATION ${CMake_install_LIBDIR}
 )
-
-install(TARGETS qwt
-        CONFIGURATIONS Debug
-)
-
 
 install(EXPORT Qwt
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Qwt
@@ -113,12 +119,10 @@ configure_package_config_file(QwtConfig.cmake.in
         ${CMAKE_CURRENT_BINARY_DIR}/QwtConfig.cmake
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Qwt
         PATH_VARS
-            INSTALL_DIR
-            LIB_INSTALL_DIR
-            INCLUDE_INSTALL_DIR
+        INSTALL_DIR
+        LIB_INSTALL_DIR
+        INCLUDE_INSTALL_DIR
 )
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QwtConfig.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Qwt/)
-
-
